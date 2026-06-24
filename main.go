@@ -104,10 +104,11 @@ func parse(cmd string) (Move, error) {
 
 	if len(cmd) > 0 {
 		last := cmd[len(cmd)-1]
-		if last == '+' {
+		switch last {
+		case '+':
 			check = true
 			cmd = cmd[:len(cmd)-1]
-		} else if last == '#' {
+		case '#':
 			checkmate = true
 			cmd = cmd[:len(cmd)-1]
 		}
