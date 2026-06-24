@@ -37,10 +37,12 @@ type Square struct {
 }
 
 type Move struct {
-	piece   Piece
-	from    Square
-	to      Square
-	capture bool
+	piece     Piece
+	from      Square
+	to        Square
+	capture   bool
+	check     bool
+	checkmate bool
 }
 
 func (m Move) toString() string {
@@ -97,6 +99,20 @@ func parse(cmd string) (Move, error) {
 		return Move{}, fmt.Errorf("notação muito curta: %q", cmd)
 	}
 
+	check := false
+	checkmate := false
+
+	if len(cmd) > 0 {
+		last := cmd[len(cmd)-1]
+		if last == '+' {
+			check = true
+			cmd = cmd[:len(cmd)-1]
+		} else if last == '#' {
+			checkmate = true
+			cmd = cmd[:len(cmd)-1]
+		}
+	}
+
 	dest := cmd[len(cmd)-2:]
 	prefix := cmd[:len(cmd)-2]
 
@@ -139,9 +155,11 @@ func parse(cmd string) (Move, error) {
 	}
 
 	return Move{
-		piece:   piece,
-		from:    from,
-		capture: capture,
+		piece:     piece,
+		from:      from,
+		capture:   capture,
+		check:     check,
+		checkmate: checkmate,
 		to: Square{
 			File: file,
 			Rank: rank,
