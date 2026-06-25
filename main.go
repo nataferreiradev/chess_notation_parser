@@ -6,18 +6,12 @@ import (
 )
 
 func main() {
-	move, err := parse("Bxe4")
+	move, err := parse("Bxe4+")
 	if err != nil {
 		fmt.Println("erro:", err)
 		return
 	}
 	fmt.Println(move.toString())
-	fmt.Printf("%c\n", move.piece)
-	fmt.Println(move.from.File)
-	fmt.Println(move.from.Rank)
-	fmt.Println(move.capture)
-	fmt.Println(move.to.File)
-	fmt.Println(move.to.Rank)
 }
 
 type Piece byte
@@ -30,6 +24,24 @@ const (
 	Queen  Piece = 'Q'
 	King   Piece = 'K'
 )
+
+func (p Piece) toString() string {
+	switch p {
+	case Pawn:
+		return "Pawn"
+	case Knight:
+		return "Knight"
+	case Bishop:
+		return "Bishop"
+	case Rook:
+		return "Rook"
+	case Queen:
+		return "Queen"
+	case King:
+		return "King"
+	}
+	return ""
+}
 
 type Square struct {
 	File int // coluna: a=0 .. h=7  (-1 = não especificado)
@@ -65,6 +77,14 @@ func (m Move) toString() string {
 
 	sb.WriteByte(byte('a' + m.to.File))
 	sb.WriteByte(byte('1' + m.to.Rank))
+
+	if m.check {
+		sb.WriteByte('+')
+	}
+
+	if m.checkmate {
+		sb.WriteByte('#')
+	}
 
 	return sb.String()
 }
