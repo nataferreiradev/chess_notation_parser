@@ -10,6 +10,7 @@ const (
 	Rook   Piece = 'R'
 	Queen  Piece = 'Q'
 	King   Piece = 'K'
+	Empty  Piece = ' '
 )
 
 // String devolve o nome da peça em inglês, ou string vazia se desconhecida.
