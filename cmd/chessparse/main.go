@@ -25,8 +25,16 @@ func main() {
 
 	fmt.Println("notação:", move.String())
 	fmt.Println("peça:   ", move.Piece)
+	fmt.Println("origem: ", move.From)
 	fmt.Println("destino:", move.To)
 	fmt.Println("captura:", move.Capture)
 	fmt.Println("xeque:  ", move.Check)
 	fmt.Println("mate:   ", move.Checkmate)
+
+	if move.Castle != chess.CastleNone {
+		fmt.Println("roque:  ", move.Castle)
+	}
+	if move.Promotion != 0 {
+		fmt.Println("promove:", move.Promotion)
+	}
 }
